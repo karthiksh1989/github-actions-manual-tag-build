@@ -1,17 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"os"
+    "fmt"
 )
 
-var version = os.Getenv("VERSION")
+var version string
 
 func main() {
-
-	if version == "" {
-		version = "unknown"
-	}
-
-	fmt.Println(version)
+    fmt.Println(version)
 }
