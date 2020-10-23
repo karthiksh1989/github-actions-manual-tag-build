@@ -23,4 +23,7 @@ jobs:
 
     - name: Build
       run: ./build.sh
+    
+    - name: Test
+      run: ./main
 
