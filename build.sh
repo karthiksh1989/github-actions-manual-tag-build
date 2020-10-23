@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+set -x
 
 # This command can print name in this priority: tag > branch > commit
 version=$(git describe --tags --exact-match 2> /dev/null \

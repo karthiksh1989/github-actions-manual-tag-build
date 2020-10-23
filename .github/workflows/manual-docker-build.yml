@@ -1,0 +1,25 @@
+name: Go
+
+on: 
+  workflow_dispatch:
+    inputs:
+      manualTag:
+        description: 'Which tag to build?'  
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+      with: 
+        ref: refs/tags/${{github.event.inputs.manualTag}}
+
+    - name: Build docker image
+      run: docker build . --file Dockerfile --tag vensder/github-actions-tag-build:${{github.event.inputs.manualTag}}      
+    
+    - name: Test docker container
+      run: docker run vensder/github-actions-tag-build:${{github.event.inputs.manualTag}}
