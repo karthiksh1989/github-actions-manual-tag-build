@@ -8,3 +8,4 @@ version=$(git describe --tags --exact-match 2> /dev/null \
 
 echo "$version"
 export VERSION=$version
+echo "$VERSION"
