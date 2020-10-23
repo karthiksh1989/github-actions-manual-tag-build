@@ -1,10 +1,10 @@
 name: Go
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: 
+  workflow_dispatch:
+    inputs:
+      manualTag:
+        description: 'Which tag to build?'  
 
 jobs:
 
@@ -20,6 +20,8 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
+      with: 
+        ref: tags/${{ github.event.inputs.manualTag }}"
 
     - name: Build
       run: ./build.sh
