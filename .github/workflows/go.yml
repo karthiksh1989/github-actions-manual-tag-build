@@ -23,9 +23,6 @@ jobs:
       with: 
         ref: refs/tags/${{ github.event.inputs.manualTag }}
 
-    # - name: Check out specific tag
-    #   run: git checkout tags/${{ github.event.inputs.manualTag }}
-
     - name: Build
       run: |
         #!/usr/bin/env bash
