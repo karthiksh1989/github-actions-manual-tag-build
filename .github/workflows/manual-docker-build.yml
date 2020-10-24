@@ -18,7 +18,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
       with: 
-        ref: refs/tags/$version
+        ref: "refs/tags/$version"
     
     - name: Create build script
       run: |
