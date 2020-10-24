@@ -1,5 +1,3 @@
-# github-actions-manual-tag-build
+# Github Actions Manual Build For Specific Tag
 
-
-release/v1.0
-release/v1.1
+This is simple project to run GitHub actions manually for specific tag.
