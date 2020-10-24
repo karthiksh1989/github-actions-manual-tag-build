@@ -15,7 +15,7 @@ jobs:
       version: "${{github.event.inputs.manualTag}}"
 
     steps:
-    - name: Check out code
+    - name: Check out the tag
       uses: actions/checkout@v2
       with: 
         ref: refs/tags/${{github.event.inputs.manualTag}}
@@ -26,7 +26,6 @@ jobs:
         #!/usr/bin/env bash
         set -e
         set -x
-
         go build -ldflags "-X main.version=$version" -o main
         EOF
 
@@ -48,7 +47,7 @@ jobs:
         cat Dockerfile
 
     - name: Build and test docker image
-      run: |
-        docker build . --file Dockerfile --tag $image_name:$version
-        docker run $image_name:$version
+      run: docker build . --file Dockerfile --tag $image_name:$version        
 
+    - name: Test docker container
+      run: docker run $image_name:$version
