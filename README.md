@@ -8,7 +8,7 @@ Create a new tag and go to the Actions -> Manual Docker Build, click Run workflo
 
 The docker image with the corresponding tag will be built and pushed to the Docker Hub registry.
 
-## Test docker image
+## Test tagged images
 
 ```bash
 docker run vensder/github-actions-tag-build:v1.6
