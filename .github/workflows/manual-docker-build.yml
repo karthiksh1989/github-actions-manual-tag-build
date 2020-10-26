@@ -22,7 +22,7 @@ jobs:
       with: 
         ref: refs/tags/${{github.event.inputs.manualTag}}
 
-    - name: "Check out the {{ github.ref }} branch"
+    - name: "Check out the ${{ GITHUB_REF }} branch"
       uses: actions/checkout@v2
       with:
         ref: "{{ github.ref }}"
