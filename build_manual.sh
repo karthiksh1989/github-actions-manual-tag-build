@@ -10,4 +10,4 @@ version=$(git describe --tags --exact-match 2> /dev/null \
 export VERSION=$version
 echo "$VERSION"
 
-go build -ldflags "-X main.version=$VERSION" -o main
+go build -ldflags "-X main.version=$VERSION" -o app

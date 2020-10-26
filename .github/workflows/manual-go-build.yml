@@ -1,10 +1,12 @@
-name: Manual Go Build
+name: Go Build Manual
 
 on: 
   workflow_dispatch:
     inputs:
-      manualTag:
-        description: 'Which tag to build?'  
+      tagManual:
+        description: 'Which tag to build?' 
+        required: true
+        default: "v1.6"  
 
 jobs:
 
@@ -18,24 +20,19 @@ jobs:
       with:
         go-version: ^1.15
 
-    - name: Check out code
+    - name: Check out ${{ github.event.inputs.tagManual }} tag code
       uses: actions/checkout@v2
       with: 
-        ref: refs/tags/${{ github.event.inputs.manualTag }}
+        ref: refs/tags/${{ github.event.inputs.tagManual }}
 
-    - name: Build
-      run: |
-        #!/usr/bin/env bash
-        # This command can print name in this priority: tag > branch > commit
-        version=$(git describe --tags --exact-match 2> /dev/null \
-          || git symbolic-ref -q --short HEAD \
-          || git rev-parse --short HEAD)
+    - name: Check out the ${{ github.ref }} branch for build script
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.ref}}
+        path: main_branch   
 
-        export VERSION=$version
-        echo "$VERSION"
-
-        go build -ldflags "-X main.version=$VERSION" -o main
+    - name: Build ${{ github.event.inputs.tagManual }} tag
+      run: ./main_branch/build_manual.sh
     
-    - name: Test
-      run: ./main
-
+    - name: Test the binary
+      run: ./app

@@ -1,8 +1,8 @@
-FROM golang:1.14 AS build
+FROM golang:1.15 AS build
 WORKDIR /src
 COPY . .
 RUN ./build.sh
 
 FROM scratch AS bin
-COPY --from=build /src/main /
-CMD [ "/main" ]
+COPY --from=build /src/app /
+CMD [ "/app" ]
