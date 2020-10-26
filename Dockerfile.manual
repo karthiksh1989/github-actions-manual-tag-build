@@ -4,5 +4,5 @@ COPY . .
 RUN ./build.sh
 
 FROM scratch AS bin
-COPY --from=build /src/main /
-CMD [ "/main" ]
+COPY --from=build /src/app /
+CMD [ "/app" ]

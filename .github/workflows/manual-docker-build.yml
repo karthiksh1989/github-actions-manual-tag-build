@@ -25,12 +25,13 @@ jobs:
     - name: Check out the main branch
       uses: actions/checkout@v2
       with:
-        path: main    
+        ref: github.ref
+        path: main_branch    
 
     - name: Build docker image
       run: |
-        cp main/Dockerfile.manual Dockerfile
-        cp main/manual_build.sh build.sh
+        cp main_branch/Dockerfile.manual Dockerfile
+        cp main_branch/manual_build.sh build.sh
         docker build . --file Dockerfile --tag $image_name:$version
 
     - name: Test docker container
