@@ -17,16 +17,15 @@ jobs:
       version: "${{github.event.inputs.manualTag}}"
 
     steps:
-    - name: Check out the main branch
-      uses: actions/checkout@v2
-      with:
-        path: main
-
     - name: Check out the tag
       uses: actions/checkout@v2
       with: 
         ref: refs/tags/${{github.event.inputs.manualTag}}
-    
+
+    - name: Check out the main branch
+      uses: actions/checkout@v2
+      with:
+        path: main    
 
     - name: Build docker image
       run: |
