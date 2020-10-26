@@ -3,7 +3,7 @@ name: Docker Build Manual
 on: 
   workflow_dispatch:
     inputs:
-      manualTag:
+      tagManual:
         description: 'Which tag to build?'
         required: true
         default: "v1.6" 
@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       image_name: "vensder/github-actions-tag-build"
-      version: "${{ github.event.inputs.manualTag }}"
+      version: "${{ github.event.inputs.tagManual }}"
 
     steps:
-    - name: Check out the ${{ github.event.inputs.manualTag }} tag to build
+    - name: Check out the ${{ github.event.inputs.tagManual }} tag to build
       uses: actions/checkout@v2
       with: 
-        ref: refs/tags/${{ github.event.inputs.manualTag }}
+        ref: refs/tags/${{ github.event.inputs.tagManual }}
 
     - name: Check out the ${{ github.ref }} branch for Dockerfile and build script
       uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
         ref: ${{github.ref}}
         path: main_branch    
 
-    - name: Build docker image from ${{ github.event.inputs.manualTag }} tag sources
+    - name: Build docker image from ${{ github.event.inputs.tagManual }} tag sources
       run: |
         cp main_branch/Dockerfile.manual Dockerfile
         cp main_branch/build_manual.sh build.sh

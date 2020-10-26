@@ -3,7 +3,7 @@ name: Manual Go Build
 on: 
   workflow_dispatch:
     inputs:
-      manualTag:
+      tagManual:
         description: 'Which tag to build?' 
         required: true
         default: "v1.6"  
@@ -23,7 +23,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
       with: 
-        ref: refs/tags/${{ github.event.inputs.manualTag }}
+        ref: refs/tags/${{ github.event.inputs.tagManual }}
 
     - name: Build
       run: |
