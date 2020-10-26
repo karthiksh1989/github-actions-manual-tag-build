@@ -28,10 +28,10 @@ jobs:
         ref: ${{github.ref}}
         path: main_branch    
 
-    - name: Build docker image
+    - name: Build docker image from ${{ github.event.inputs.manualTag }} tag sources
       run: |
         cp main_branch/Dockerfile.manual Dockerfile
-        cp main_branch/manual_build.sh build.sh
+        cp main_branch/build_manual.sh build.sh
         docker build . --file Dockerfile --tag $image_name:$version
 
     - name: Test docker container
