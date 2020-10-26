@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       manualTag:
-        description: 'Which tag to build?'  
+        description: 'Which tag to build?' 
+        required: true
+        default: "v1.6"  
 
 jobs:
 
