@@ -1,4 +1,4 @@
-name: Manual Go Build
+name: Go Build Manual
 
 on: 
   workflow_dispatch:
@@ -20,12 +20,12 @@ jobs:
       with:
         go-version: ^1.15
 
-    - name: Check out code
+    - name: Check out ${{ github.event.inputs.tagManual }} tag code
       uses: actions/checkout@v2
       with: 
         ref: refs/tags/${{ github.event.inputs.tagManual }}
 
-    - name: Build
+    - name: Build ${{ github.event.inputs.tagManual }} tag
       run: |
         #!/usr/bin/env bash
         # This command can print name in this priority: tag > branch > commit
@@ -38,5 +38,5 @@ jobs:
 
         go build -ldflags "-X main.version=$VERSION" -o main
     
-    - name: Test
+    - name: Test the binary
       run: ./main
