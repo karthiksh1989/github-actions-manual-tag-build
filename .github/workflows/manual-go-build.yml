@@ -25,18 +25,14 @@ jobs:
       with: 
         ref: refs/tags/${{ github.event.inputs.tagManual }}
 
+    - name: Check out the ${{ github.ref }} branch for build script
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.ref}}
+        path: main_branch   
+
     - name: Build ${{ github.event.inputs.tagManual }} tag
-      run: |
-        #!/usr/bin/env bash
-        # This command can print name in this priority: tag > branch > commit
-        version=$(git describe --tags --exact-match 2> /dev/null \
-          || git symbolic-ref -q --short HEAD \
-          || git rev-parse --short HEAD)
-
-        export VERSION=$version
-        echo "$VERSION"
-
-        go build -ldflags "-X main.version=$VERSION" -o main
+      run: ./main_branch/build_manual.sh
     
     - name: Test the binary
-      run: ./main
+      run: ./app
