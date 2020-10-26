@@ -17,7 +17,7 @@ jobs:
       version: "${{ github.event.inputs.manualTag }}"
 
     steps:
-    - name: Check out the tag
+    - name: Check out the ${{github.event.inputs.manualTag}} tag
       uses: actions/checkout@v2
       with: 
         ref: refs/tags/${{github.event.inputs.manualTag}}
