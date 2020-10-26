@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       image_name: "vensder/github-actions-tag-build"
-      version: "${{github.event.inputs.manualTag}}"
+      version: "${{ github.event.inputs.manualTag }}"
 
     steps:
     - name: Check out the tag
@@ -22,10 +22,10 @@ jobs:
       with: 
         ref: refs/tags/${{github.event.inputs.manualTag}}
 
-    - name: Check out the main branch
+    - name: "Check out the {{ github.ref }} branch"
       uses: actions/checkout@v2
       with:
-        ref: github.ref
+        ref: "{{ github.ref }}"
         path: main_branch    
 
     - name: Build docker image
