@@ -54,14 +54,5 @@ jobs:
         file: ./Dockerfile
         tags: ${{ env.image_name }}:${{ env.image_tag }}
         push: true
-        # load: true
 
-    - name: Image digest
-      run: echo ${{ steps.docker_build.outputs.digest }}
-
-    # - name: Push ${{ env.image_name }}:${{ env.image_tag }} image
-    #   run: docker push $image_name:$image_tag
-
-    # - name: Test docker container
-    #   run: docker run $image_name:$image_tag
 
