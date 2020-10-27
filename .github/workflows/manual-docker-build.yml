@@ -48,7 +48,7 @@ jobs:
         file: ./Dockerfile
         # push: true
         # ${{ env.REGISTRY }}/myapp:latest
-        tags: vensder/github-actions-tag-build:${{ version }}
+        tags: vensder/github-actions-tag-build:${{ env.version }}
         load: true
 
 
