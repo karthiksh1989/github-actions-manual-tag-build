@@ -30,7 +30,7 @@ jobs:
     - name: Check out the ${{ steps.workflow_branch.outputs.branch }} branch for Dockerfile and build script
       uses: actions/checkout@v2
       with:
-        ref: ${{github.ref}}
+        ref: ${{ github.ref }}
         path: main_branch    
 
     - name: Login to DockerHub
@@ -39,7 +39,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Copy Dockerfile and script from the ${{ github.ref }} branch
+    - name: Copy Dockerfile and script from the ${{ steps.workflow_branch.outputs.branch }} branch
       run: |
         cp main_branch/Dockerfile.manual Dockerfile
         cp main_branch/build_manual.sh build.sh
