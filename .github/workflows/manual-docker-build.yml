@@ -42,8 +42,8 @@ jobs:
     - name: Build and push the docker image from the ${{ github.event.inputs.tagManual }} tag sources
       uses: docker/build-push-action@v2
       with:
-        # context: .
-        file: ./Dockerfile
+        context: .
+        # file: ./Dockerfile
         tags: ${{ env.image_name }}:${{ env.version }}
         load: true
 
