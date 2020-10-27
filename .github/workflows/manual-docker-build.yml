@@ -10,38 +10,49 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build docker image for ${{ github.event.inputs.tagManual }} tag
     runs-on: ubuntu-latest
     env:
       image_name: "vensder/github-actions-tag-build"
-      version: "${{ github.event.inputs.tagManual }}"
+      image_tag: "${{ github.event.inputs.tagManual }}"
 
     steps:
-    - name: Check out the ${{ github.event.inputs.tagManual }} tag to build
+    - name: Extract workflow branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: workflow_branch
+
+    - name: Check out ${{ env.image_tag }} tag to build
       uses: actions/checkout@v2
       with: 
-        ref: refs/tags/${{ github.event.inputs.tagManual }}
+        ref: refs/tags/${{ env.image_tag }}
 
-    - name: Check out the ${{ github.ref }} branch for Dockerfile and build script
+    - name: Check out ${{ steps.workflow_branch.outputs.branch }} branch for Dockerfile and build script
       uses: actions/checkout@v2
       with:
-        ref: ${{github.ref}}
+        ref: ${{ github.ref }}
         path: main_branch    
 
-    - name: Build docker image from ${{ github.event.inputs.tagManual }} tag sources
-      run: |
-        cp main_branch/Dockerfile.manual Dockerfile
-        cp main_branch/build_manual.sh build.sh
-        docker build . --file Dockerfile --tag $image_name:$version
-
-    - name: Test docker container
-      run: docker run $image_name:$version
+    - uses: docker/setup-buildx-action@v1
 
     - name: Login to DockerHub
-      uses: docker/login-action@v1
+      uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Push docker image
-      run: docker push $image_name:$version
+    - name: Copy Dockerfile and script from ${{ steps.workflow_branch.outputs.branch }} branch
+      run: |
+        cp main_branch/Dockerfile.manual Dockerfile
+        cp main_branch/build_manual.sh build.sh
+
+    - name: Build and push docker image from ${{ env.image_tag }} tag sources
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        tags: ${{ env.image_name }}:${{ env.image_tag }}
+        push: true
+
+
