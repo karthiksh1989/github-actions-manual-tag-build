@@ -17,12 +17,17 @@ jobs:
       image_tag: "${{ github.event.inputs.tagManual }}"
 
     steps:
+    - name: Extract the workflow branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: workflow_branch
+
     - name: Check out the ${{ env.image_tag }} tag to build
       uses: actions/checkout@v2
       with: 
         ref: refs/tags/${{ env.image_tag }}
 
-    - name: Check out the ${{ github.ref }} branch for Dockerfile and build script
+    - name: Check out the ${{ steps.workflow_branch.outputs.branch }} branch for Dockerfile and build script
       uses: actions/checkout@v2
       with:
         ref: ${{github.ref}}
