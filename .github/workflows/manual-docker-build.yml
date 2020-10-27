@@ -28,20 +28,37 @@ jobs:
         ref: ${{github.ref}}
         path: main_branch    
 
-    - name: Build docker image from ${{ github.event.inputs.tagManual }} tag sources
-      run: |
-        cp main_branch/Dockerfile.manual Dockerfile
-        cp main_branch/build_manual.sh build.sh
-        docker build . --file Dockerfile --tag $image_name:$version
-
-    - name: Test docker container
-      run: docker run $image_name:$version
-
     - name: Login to DockerHub
-      uses: docker/login-action@v1
+      uses: docker/login-action@v1 
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Push docker image
-      run: docker push $image_name:$version
+    - name: Copy Dockerfile and script from the ${{ github.ref }} branch
+      run: |
+        cp main_branch/Dockerfile.manual Dockerfile
+        cp main_branch/build_manual.sh build.sh
+        # docker build . --file Dockerfile --tag $image_name:$version
+
+    - name: Build and push the docker image from the ${{ github.event.inputs.tagManual }} tag sources
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: $image_name:$version
+        # build-args: |
+        #   arg1=value1
+        #   arg2=value2
+
+
+    # - name: Test docker container
+    #   run: docker run $image_name:$version
+
+    # - name: Login to DockerHub
+    #   uses: docker/login-action@v1
+    #   with:
+    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # - name: Push docker image
+    #   run: docker push $image_name:$version
