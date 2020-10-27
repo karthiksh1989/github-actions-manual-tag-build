@@ -47,7 +47,7 @@ jobs:
         # context: .
         # push: true
         # ${{ env.REGISTRY }}/myapp:latest
-        tags: vensder/github-actions-tag-build:${{ version }}
+        tags: vensder/github-actions-tag-build:${{ env.VERSION }}
         load: true
         # ghcr.io/user/app:1.0.0
 
