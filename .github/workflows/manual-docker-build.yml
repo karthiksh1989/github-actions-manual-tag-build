@@ -45,7 +45,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: ${{ $image_name:$version }}
+        tags: vensder/github-actions-tag-build:ddd
         # ghcr.io/user/app:1.0.0
 
         # build-args: |
