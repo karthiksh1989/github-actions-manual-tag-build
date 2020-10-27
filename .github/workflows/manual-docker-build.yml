@@ -56,7 +56,7 @@ jobs:
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
 
-    - name: Push
+    - name: Push ${{ env.image_name }}:${{ env.image_tag }} image
       run: docker push $image_name:$image_tag
 
     # - name: Test docker container
