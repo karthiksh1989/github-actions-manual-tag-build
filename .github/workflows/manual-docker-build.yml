@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build the docker image with defined ${{ github.event.inputs.tagManual }} tag
     runs-on: ubuntu-latest
     env:
       image_name: "vensder/github-actions-tag-build"
