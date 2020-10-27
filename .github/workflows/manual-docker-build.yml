@@ -44,16 +44,13 @@ jobs:
       # id: docker_build
       uses: docker/build-push-action@v2
       with:
-        # context: .
+        context: .
+        file: ./Dockerfile
         # push: true
         # ${{ env.REGISTRY }}/myapp:latest
         tags: vensder/github-actions-tag-build:${{ github.event.inputs.tagManual }}
         load: true
-        # ghcr.io/user/app:1.0.0
 
-        # build-args: |
-        #   arg1=value1
-        #   arg2=value2
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
