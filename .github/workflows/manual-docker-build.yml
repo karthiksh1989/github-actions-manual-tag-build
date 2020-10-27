@@ -40,10 +40,11 @@ jobs:
         cp main_branch/build_manual.sh build.sh
 
     - name: Build and push the docker image from the ${{ github.event.inputs.tagManual }} tag sources
+      id: docker_build
       uses: docker/build-push-action@v2
       with:
         context: .
-        # file: ./Dockerfile
+        file: ./Dockerfile
         tags: ${{ env.image_name }}:${{ env.version }}
         load: true
 
