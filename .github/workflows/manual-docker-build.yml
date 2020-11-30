@@ -38,6 +38,8 @@ jobs:
       id: image-tag
       # Introspect git tags for a release version else use latest commit
       run: |
+        echo "$SHELL"
+        echo $($SHELL --version)
         git fetch --depth=1 origin '+refs/tags/*:refs/tags/*'
         RELEASE_TAG=$(git tag --points-at HEAD)
         RELEASE_VERSION=${RELEASE_TAG##*@} # ${variable##*@} -> returns everything after the last @ in a string.
