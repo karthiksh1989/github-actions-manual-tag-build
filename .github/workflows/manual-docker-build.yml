@@ -44,6 +44,11 @@ jobs:
         GIT_BRANCH=${GITHUB_REF##*/} # ${variable##*/} -> returns everything after the last / in a string.
         GIT_COMMIT=$(git rev-parse --short HEAD)
         echo ::set-output name=value::${RELEASE_VERSION:-$GIT_BRANCH-$GIT_COMMIT}
+        echo $RELEASE_TAG
+        echo $RELEASE_VERSION
+        echo $GIT_BRANCH
+        echo $GIT_COMMIT
+        echo ${RELEASE_VERSION:-$GIT_BRANCH-$GIT_COMMIT}
 
     - uses: docker/setup-buildx-action@v1
 
