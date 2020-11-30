@@ -17,16 +17,6 @@ jobs:
       image_tag: "${{ github.event.inputs.tagManual }}"
 
     steps:
-    - name: Get image tag
-      id: image-tag
-      # Introspect git tags for a release version else use latest commit
-      run: |
-        git fetch --depth=1 origin '+refs/tags/*:refs/tags/*'
-        RELEASE_TAG=$(git tag --points-at HEAD)
-        RELEASE_VERSION=${RELEASE_TAG##*@} # ${variable##*@} -> returns everything after the last @ in a string.
-        GIT_BRANCH=${GITHUB_REF##*/} # ${variable##*/} -> returns everything after the last / in a string.
-        GIT_COMMIT=$(git rev-parse --short HEAD)
-        echo ::set-output name=value::${RELEASE_VERSION:-$GIT_BRANCH-$GIT_COMMIT}
 
     - name: Extract workflow branch name
       shell: bash
@@ -43,6 +33,17 @@ jobs:
       with:
         ref: ${{ github.ref }}
         path: main_branch    
+
+    - name: Get image tag
+      id: image-tag
+      # Introspect git tags for a release version else use latest commit
+      run: |
+        git fetch --depth=1 origin '+refs/tags/*:refs/tags/*'
+        RELEASE_TAG=$(git tag --points-at HEAD)
+        RELEASE_VERSION=${RELEASE_TAG##*@} # ${variable##*@} -> returns everything after the last @ in a string.
+        GIT_BRANCH=${GITHUB_REF##*/} # ${variable##*/} -> returns everything after the last / in a string.
+        GIT_COMMIT=$(git rev-parse --short HEAD)
+        echo ::set-output name=value::${RELEASE_VERSION:-$GIT_BRANCH-$GIT_COMMIT}
 
     - uses: docker/setup-buildx-action@v1
 
