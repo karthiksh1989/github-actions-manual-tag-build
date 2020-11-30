@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Output Run ID
+      run: echo ${{ github.run_id }}
+    - name: Output Run Number
+      run: echo ${{ github.run_number }}
+
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
